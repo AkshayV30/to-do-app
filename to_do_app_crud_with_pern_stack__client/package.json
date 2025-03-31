@@ -3,10 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://github.com/AkshayV30/to-do-app/to_do_app_crud_with_pern_stack__client/",
+  "homepage": "https://github.com/AkshayV30/to-do-app/",
   "scripts": {
     "dev": "vite",
-    "build": "vite build --base=/to-do-app/to_do_app_crud_with_pern_stack__client/",
+    "build": "vite build --base=/to-do-app/",
     "lint": "eslint .",
     "preview": "vite preview",
     "deploy": "gh-pages -d dist"
