@@ -1,0 +1,43 @@
+name: Deploy React to GitHub Pages
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - master
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: to_do_app_crud_with_pern_stack__client
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build React app
+        run: npm run build
+
+      - name: Create .nojekyll file
+        run: touch to_do_app_crud_with_pern_stack__client/dist/.nojekyll
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: to_do_app_crud_with_pern_stack__client/dist
+          clean: true

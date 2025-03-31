@@ -5,6 +5,9 @@ import dotenv from "dotenv";
 import pool from "./db/db.js";
 import todoRoutes from "./routes/todos.js";
 
+// for connection with neon for database online
+const { neon } = require("@neondatabase/serverless");
+
 dotenv.config(); // Load environment variables
 
 const app = express();
