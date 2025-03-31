@@ -3,12 +3,13 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://github.com/AkshayV30/to-do-app/to_do_app_crud_with_pern_stack__client",
+  "homepage": "https://github.com/AkshayV30/to-do-app/to_do_app_crud_with_pern_stack__client/",
   "scripts": {
     "dev": "vite",
     "build": "vite build --base=/to-do-app/to_do_app_crud_with_pern_stack__client/",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.69.0",
