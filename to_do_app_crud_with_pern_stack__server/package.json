@@ -6,6 +6,7 @@
   "author": "AkshayV30",
   "type": "module",
   "scripts": {
+    "start": "node server.js",
     "start-dev": "nodemon server.js"
   },
   "devDependencies": {
