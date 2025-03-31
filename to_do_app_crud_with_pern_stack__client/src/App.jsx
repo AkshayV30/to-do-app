@@ -17,7 +17,7 @@ function App() {
   return (
     <>
       <QueryClientProvider client={queryClient}>
-        <Router>
+        <Router basename="/to-do-app">
           <Routes>
             <Route path="/" element={<Home />} />
           </Routes>
