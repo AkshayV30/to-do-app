@@ -3,15 +3,15 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import pool from "./db/db.js";
-import todoRoutes from "./routes/todos.js";
+import sql from "./db/neon.js";
 
-// for connection with neon for database online
-const { neon } = require("@neondatabase/serverless");
+import todoRoutes from "./routes/todos.js";
 
 dotenv.config(); // Load environment variables
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const USE_NEON = process.env.USE_NEON === "true"; // Toggle for Neon
 
 // Middleware
 app.use(cors()); // Enable CORS
@@ -20,8 +20,13 @@ app.use(express.json()); // Parse JSON request body
 // Database Connection Test
 const checkDatabaseConnection = async () => {
   try {
-    const res = await pool.query("SELECT NOW()");
-    console.log("✅ Connected to PostgreSQL at:", res.rows[0].now);
+    if (USE_NEON) {
+      const result = await sql`SELECT NOW()`;
+      console.log("✅ Connected to Neon PostgreSQL at:", result[0].now);
+    } else {
+      const res = await pool.query("SELECT NOW()");
+      console.log("✅ Connected to PostgreSQL at:", res.rows[0].now);
+    }
   } catch (err) {
     console.error("❌ Database connection error:", err.message);
     process.exit(1); // Exit if database connection fails
