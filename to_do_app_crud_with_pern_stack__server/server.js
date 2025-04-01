@@ -15,6 +15,13 @@ const USE_NEON = process.env.USE_NEON === "true"; // Toggle for Neon
 
 // Middleware
 app.use(cors()); // Enable CORS
+app.use(
+  cors({
+    origin: "*",
+    methods: "GET,POST,PUT,DELETE",
+    allowedHeaders: "Content-Type",
+  })
+);
 app.use(express.json()); // Parse JSON request body
 
 // Database Connection Test
@@ -45,6 +52,17 @@ app.get("/", (req, res) => {
 // 404 Error Handler
 app.use((req, res) => {
   res.status(404).json({ error: "Route not found" });
+});
+
+app.get("/health", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT NOW()");
+    res.json({ status: "✅ DB Connected", time: result.rows[0].now });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ error: "❌ Database connection failed", details: err.message });
+  }
 });
 
 // Start the Server
