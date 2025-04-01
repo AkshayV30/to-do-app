@@ -30,15 +30,10 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Inject Environment Variables
-        run: |
-          echo "REACT_APP_API_BASE_URL=${{ secrets.REACT_APP_API_BASE_URL }}" >> $GITHUB_ENV
-          echo "REACT_APP_API_BASE_URL=${{ secrets.REACT_APP_API_BASE_URL }}" >> .env
-          cat .env  # Debugging: Check if the .env file is created
-
       - name: Build React app
-        run: npm run build
-        working-directory: ./to_do_app_crud_with_pern_stack__client
+        run: |
+          echo "REACT_APP_API_BASE_URL=${{ secrets.REACT_APP_API_BASE_URL }}" > .env
+          npm run build
         env:
           REACT_APP_API_BASE_URL: ${{ secrets.REACT_APP_API_BASE_URL }}
 
