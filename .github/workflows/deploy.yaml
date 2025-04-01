@@ -36,6 +36,8 @@ jobs:
       - name: Build React app
         run: npm run build
         working-directory: ./to_do_app_crud_with_pern_stack__client
+        env:
+          REACT_APP_API_BASE_URL: ${{ secrets.REACT_APP_API_BASE_URL }}
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
