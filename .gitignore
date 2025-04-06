@@ -1,1 +1,3 @@
 *.docx
+.env
+.env.production

@@ -21,6 +21,9 @@
     "prettier": "^3.5.3"
   },
   "dependencies": {
-    "@neondatabase/serverless": "^1.0.0"
+    "@neondatabase/serverless": "^1.0.0",
+    "compression": "^1.8.0",
+    "helmet": "^8.1.0",
+    "morgan": "^1.10.0"
   }
 }

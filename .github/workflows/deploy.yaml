@@ -16,7 +16,10 @@ jobs:
       run:
         working-directory: to_do_app_crud_with_pern_stack__client
     env:
-      REACT_APP_API_BASE_URL: ${{ secrets.REACT_APP_API_BASE_URL }}
+      APP_API_BASE_URL: ${{ secrets.APP_API_BASE_URL }}
+      NEON_DATABASE_URL: ${{ secrets.NEON_DATABASE_URL }}
+      USE_NEON: ${{ secrets.USE_NEON }}
+      FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
 
     steps:
       - name: Checkout repository
@@ -30,16 +33,19 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build React app
+      - name: Create .env for Vite/React
         run: |
-          echo "REACT_APP_API_BASE_URL=${{ secrets.REACT_APP_API_BASE_URL }}" > .env
-          npm run build
-        env:
-          REACT_APP_API_BASE_URL: ${{ secrets.REACT_APP_API_BASE_URL }}
+          echo "VITE_APP_API_BASE_URL=${{ secrets.APP_API_BASE_URL }}" > .env
+          echo "VITE_FRONTEND_URL=${{ secrets.FRONTEND_URL }}" >> .env
+          echo "USE_NEON=${{ secrets.USE_NEON }}" >> .env
+          echo "NEON_DATABASE_URL=${{ secrets.NEON_DATABASE_URL }}" >> .env
+
+      - name: Build React app
+        run: npm run build
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: ./to_do_app_crud_with_pern_stack__client/dist
+          folder: dist
           clean: true

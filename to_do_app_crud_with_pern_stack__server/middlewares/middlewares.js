@@ -1,11 +1,17 @@
 import cors from "cors";
 import express from "express";
 
+import helmet from "helmet";
+import compression from "compression";
+import morgan from "morgan";
+
+const allowedOrigins = [process.env.FRONTEND_URL];
+
 export const configMiddleware = (app) => {
   // CORS
   app.use(
     cors({
-      origin: "https://akshayv30.github.io/to-do-app/",
+      origin: allowedOrigins,
       methods: "GET,POST,PUT,DELETE",
       allowedHeaders: "Content-Type",
     })
@@ -15,4 +21,8 @@ export const configMiddleware = (app) => {
 
   // Parse JSON bodies
   app.use(express.json());
+
+  app.use(helmet());
+  app.use(compression());
+  app.use(morgan("dev"));
 };
