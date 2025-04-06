@@ -1,4 +1,3 @@
-// controllers/healthController.js
 import { db, sql, isUsingNeon } from "../db/db.js";
 
 export const healthCheckHandler = async (req, res) => {
