@@ -35,8 +35,8 @@ jobs:
 
       - name: Create .env for Vite/React
         run: |
-          echo "VITE_APP_API_BASE_URL=${{ secrets.APP_API_BASE_URL }}" > .env
-          echo "VITE_FRONTEND_URL=${{ secrets.FRONTEND_URL }}" >> .env
+          echo "APP_API_BASE_URL=${{ secrets.APP_API_BASE_URL }}" > .env
+          echo "FRONTEND_URL=${{ secrets.FRONTEND_URL }}" >> .env
           echo "USE_NEON=${{ secrets.USE_NEON }}" >> .env
           echo "NEON_DATABASE_URL=${{ secrets.NEON_DATABASE_URL }}" >> .env
 
