@@ -15,7 +15,7 @@ const query = async (queryText, values = []) => {
           textWithValues = textWithValues.replace(`$${i + 1}`, safeVal);
         });
       }
-      const result = await sql.unsafe(textWithValues);
+      const result = await sql(textWithValues);
       console.log(" Neon SQL result:", result);
 
       return result;
@@ -60,6 +60,8 @@ export const getTodos = async (req, res) => {
     // const allTodos = await pool.query("SELECT * FROM todo");
     // res.json(allTodos.rows);
     const result = await query("SELECT * FROM todo");
+
+    console.log(" Raw query result:", result);
     const todos = extractRows(result);
     res.json(todos);
   } catch (err) {
