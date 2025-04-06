@@ -18,27 +18,28 @@ const ListTodos = () => {
         </tr>
       </thead>
       <tbody>
-        {todos?.map((todo) => (
-          <tr key={todo.todo_id}>
-            <td>{todo.description}</td>
-            <td>
-              <EditTodo todo={todo} />
-            </td>
-            <td>
-              <button
-                className="btn btn-danger"
-                onClick={() =>
-                  deleteTodoMutation.mutate(todo.todo_id, {
-                    onError: (err) =>
-                      alert("Error deleting todo: " + err.message),
-                  })
-                }
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
-        ))}
+        {Array.isArray(todos) &&
+          todos.map((todo) => (
+            <tr key={todo.todo_id}>
+              <td>{todo.description}</td>
+              <td>
+                <EditTodo todo={todo} />
+              </td>
+              <td>
+                <button
+                  className="btn btn-danger"
+                  onClick={() =>
+                    deleteTodoMutation.mutate(todo.todo_id, {
+                      onError: (err) =>
+                        alert("Error deleting todo: " + err.message),
+                    })
+                  }
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
       </tbody>
     </table>
   );
