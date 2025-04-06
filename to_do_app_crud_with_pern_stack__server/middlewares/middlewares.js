@@ -31,6 +31,8 @@ export const configMiddleware = (app) => {
     })
   );
 
+  // app.use(cors("*"));
+
   // Parse JSON bodies
   app.use(express.json());
 
