@@ -15,7 +15,7 @@ const query = async (queryText, values = []) => {
           textWithValues = textWithValues.replace(`$${i + 1}`, safeVal);
         });
       }
-      const result = await sql.unsafe(textWithValues).then((res) => res);
+      const result = await sql.unsafe(textWithValues);
       console.log(" Neon SQL result:", result);
 
       return result;
