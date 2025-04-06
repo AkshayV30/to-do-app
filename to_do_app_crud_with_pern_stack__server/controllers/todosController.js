@@ -59,7 +59,7 @@ export const getTodos = async (req, res) => {
     // const allTodos = await pool.query("SELECT * FROM todo");
     // res.json(allTodos.rows);
     const result = await query("SELECT * FROM todo");
-    const todos = isUsingNeon ? result : result.rows;
+    const todos = extractRows(result);
     res.json(todos);
   } catch (err) {
     console.error("Get Todos Error:", err.message);
