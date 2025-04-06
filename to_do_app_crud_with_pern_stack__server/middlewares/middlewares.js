@@ -7,7 +7,7 @@ import express from "express";
 
 // const allowedOrigins = [process.env.FRONTEND_URL || "http://localhost:5173"];
 
-console.log("Allowed Origins:", allowedOrigins);
+// console.log("Allowed Origins:", allowedOrigins);
 
 export const configMiddleware = (app) => {
   // CORS
