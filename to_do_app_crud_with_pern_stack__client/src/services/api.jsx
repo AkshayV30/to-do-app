@@ -45,8 +45,3 @@ export const deleteTodo = async (id) => {
   const response = await api.delete(`/${id}`);
   return response.data;
 };
-
-const res = await fetch("https://to-do-app-ragl.onrender.com/v1/todos");
-const data = await res.json();
-
-console.log("✅ Received data:", data); // Should be an array

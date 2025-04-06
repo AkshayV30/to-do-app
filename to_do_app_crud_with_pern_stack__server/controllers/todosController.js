@@ -1,20 +1,31 @@
 import { db, sql, isUsingNeon } from "../db/db.js";
 
+console.log(" Using Neon DB:", isUsingNeon);
+
 const query = async (queryText, values = []) => {
-  if (isUsingNeon) {
-    // Neon doesn't use $1-style placeholders in `.unsafe`, so do direct substitution carefully
-    if (values.length) {
-      // ⚠️ Insecure: Better to use `.sql` instead of `.unsafe` for placeholders
-      const textWithValues = values.reduce(
-        (acc, val, i) => acc.replace(`$${i + 1}`, `'${val}'`),
-        queryText
-      );
-      return await sql.unsafe(textWithValues);
+  try {
+    if (isUsingNeon) {
+      let textWithValues = queryText;
+
+      // Neon doesn't use $1-style placeholders in `.unsafe`, so do direct substitution carefully
+      if (values.length) {
+        // ⚠️ Insecure: Better to use `.sql` instead of `.unsafe` for placeholders
+        values.forEach((val, i) => {
+          textWithValues = textWithValues.replace(`$${i + 1}`, `'${val}'`);
+        });
+      }
+      const result = await sql.unsafe(queryText, values);
+      console.log(" Neon SQL result:", result);
+
+      return result;
     } else {
-      return await sql.unsafe(queryText); // Returns an array
+      const result = await db.query(queryText, values);
+      console.log(" Local PG result:", result.rows);
+      return result;
     }
-  } else {
-    return await db.query(queryText, values); // Returns { rows: [...] }
+  } catch (err) {
+    console.error("❌ DB Query Error:", err.message);
+    throw err;
   }
 };
 
