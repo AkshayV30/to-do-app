@@ -17,8 +17,6 @@ const USE_NEON = process.env.USE_NEON === "true"; // Toggle for Neon
 //  Middleware
 configMiddleware(app);
 
-app.use(express.json()); // Parse JSON request body
-
 // Database Connection Test
 const checkDatabaseConnection = async () => {
   try {
