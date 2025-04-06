@@ -1,9 +1,21 @@
 import { db, sql, isUsingNeon } from "../db/db.js";
 
 const query = async (queryText, values = []) => {
-  return isUsingNeon
-    ? await sql.unsafe(queryText, values)
-    : await db.query(queryText, values);
+  if (isUsingNeon) {
+    // Neon doesn't use $1-style placeholders in `.unsafe`, so do direct substitution carefully
+    if (values.length) {
+      // ⚠️ Insecure: Better to use `.sql` instead of `.unsafe` for placeholders
+      const textWithValues = values.reduce(
+        (acc, val, i) => acc.replace(`$${i + 1}`, `'${val}'`),
+        queryText
+      );
+      return await sql.unsafe(textWithValues);
+    } else {
+      return await sql.unsafe(queryText); // Returns an array
+    }
+  } else {
+    return await db.query(queryText, values); // Returns { rows: [...] }
+  }
 };
 
 const extractRows = (result) => (isUsingNeon ? result : result.rows);
@@ -36,7 +48,8 @@ export const getTodos = async (req, res) => {
     // const allTodos = await pool.query("SELECT * FROM todo");
     // res.json(allTodos.rows);
     const result = await query("SELECT * FROM todo");
-    res.json(extractRows(result));
+    const todos = isUsingNeon ? result : result.rows;
+    res.json(todos);
   } catch (err) {
     console.error("Get Todos Error:", err.message);
     res.status(500).json({ error: "Failed to fetch todos" });
