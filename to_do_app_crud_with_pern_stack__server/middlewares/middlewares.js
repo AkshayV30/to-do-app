@@ -24,7 +24,12 @@ export const configMiddleware = (app) => {
   //     credentials: true,
   //   })
   // );
-  app.use(cors("*"));
+  app.use(
+    cors({
+      origin: process.env.FRONTEND_URL,
+      credentials: true,
+    })
+  );
 
   // Parse JSON bodies
   app.use(express.json());

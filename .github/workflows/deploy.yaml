@@ -10,15 +10,14 @@ permissions:
   contents: write
 
 jobs:
-  build:
+  deploy-frontend:
+    name: Build and Deploy Frontend
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: to_do_app_crud_with_pern_stack__client
     env:
       APP_API_BASE_URL: ${{ secrets.APP_API_BASE_URL }}
-      NEON_DATABASE_URL: ${{ secrets.NEON_DATABASE_URL }}
-      USE_NEON: ${{ secrets.USE_NEON }}
       FRONTEND_URL: ${{ secrets.FRONTEND_URL }}
 
     steps:
@@ -37,8 +36,6 @@ jobs:
         run: |
           echo "APP_API_BASE_URL=${{ secrets.APP_API_BASE_URL }}" > .env
           echo "FRONTEND_URL=${{ secrets.FRONTEND_URL }}" >> .env
-          echo "USE_NEON=${{ secrets.USE_NEON }}" >> .env
-          echo "NEON_DATABASE_URL=${{ secrets.NEON_DATABASE_URL }}" >> .env
 
       - name: Build React app
         run: npm run build
