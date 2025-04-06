@@ -11,10 +11,11 @@ const query = async (queryText, values = []) => {
       if (values.length) {
         // ⚠️ Insecure: Better to use `.sql` instead of `.unsafe` for placeholders
         values.forEach((val, i) => {
-          textWithValues = textWithValues.replace(`$${i + 1}`, `'${val}'`);
+          const safeVal = typeof val === "string" ? `'${val}'` : val;
+          textWithValues = textWithValues.replace(`$${i + 1}`, safeVal);
         });
       }
-      const result = await sql.unsafe(queryText, values);
+      const result = await sql.unsafe(textWithValues).then((res) => res);
       console.log(" Neon SQL result:", result);
 
       return result;
