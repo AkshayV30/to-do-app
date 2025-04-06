@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./to_do_app_crud_with_pern_stack__client
+        working-directory: to_do_app_crud_with_pern_stack__client
     env:
       APP_API_BASE_URL: ${{ secrets.APP_API_BASE_URL }}
       NEON_DATABASE_URL: ${{ secrets.NEON_DATABASE_URL }}
@@ -47,5 +47,5 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: dist
+          folder: ./to_do_app_crud_with_pern_stack__client/dist
           clean: true
