@@ -6,6 +6,7 @@ import pool from "./db/db.js";
 import sql from "./db/neon.js";
 
 import todoRoutes from "./routes/todos.js";
+import { configMiddleware } from "./middlewares/middlewares.js";
 
 dotenv.config(); // Load environment variables
 
@@ -13,15 +14,9 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const USE_NEON = process.env.USE_NEON === "true"; // Toggle for Neon
 
-// Middleware
-app.use(cors()); // Enable CORS
-app.use(
-  cors({
-    origin: "*",
-    methods: "GET,POST,PUT,DELETE",
-    allowedHeaders: "Content-Type",
-  })
-);
+//  Middleware
+configMiddleware(app);
+
 app.use(express.json()); // Parse JSON request body
 
 // Database Connection Test
@@ -49,11 +44,6 @@ app.get("/", (req, res) => {
   res.send("🚀 Welcome to the Express Server!");
 });
 
-// 404 Error Handler
-app.use((req, res) => {
-  res.status(404).json({ error: "Route not found" });
-});
-
 app.get("/health", async (req, res) => {
   try {
     const result = await pool.query("SELECT NOW()");
@@ -63,6 +53,11 @@ app.get("/health", async (req, res) => {
       .status(500)
       .json({ error: "❌ Database connection failed", details: err.message });
   }
+});
+
+// 404 Error Handler
+app.use((req, res) => {
+  res.status(404).json({ error: "Route not found" });
 });
 
 // Start the Server
