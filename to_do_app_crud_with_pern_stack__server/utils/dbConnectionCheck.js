@@ -1,18 +1,17 @@
-import pool from "../db/db.js";
-import sql from "../db/neon.js";
+import { db, sql, isUsingNeon } from "../db/db.js";
 
 const isDeployed =
   process.env.NODE_ENV === "production" || process.env.USE_NEON === "true";
 
 export const checkDatabaseConnection = async () => {
   try {
-    const result = isDeployed
+    const result = isUsingNeon
       ? await sql`SELECT NOW()`
-      : await pool.query("SELECT NOW()");
+      : await db.query("SELECT NOW()");
 
     console.log(
-      `✅ Connected to ${isDeployed ? "Neon" : "Local"} PostgreSQL at:`,
-      isDeployed ? result[0].now : result.rows[0].now
+      `✅ Connected to ${isUsingNeon ? "Neon" : "Local"} PostgreSQL at:`,
+      isUsingNeon ? result[0].now : result.rows[0].now
     );
   } catch (err) {
     console.error("❌ Database connection error:", err.message);

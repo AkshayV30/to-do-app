@@ -1,11 +1,11 @@
 import axios from "axios";
 
-// const API_BASE_URL = "http://localhost:5000/v1/todos";
-const API_BASE_URL =
-  process.env.APP_API_BASE_URL || "http://localhost:5000/v1/todos";
+const API_BASE_URL = "http://localhost:5000/v1/todos";
+// const API_BASE_URL =
+//   import.meta.env.APP_API_BASE_URL || "http://localhost:5000/v1/todos";
 
 // const API_BASE_URL = "https://to-do-app-ragl.onrender.com/v1/todos";
-console.log("API Base URL:", process.env.APP_API_BASE_URL);
+console.log("API Base URL:", API_BASE_URL);
 
 export const getTodos = async () => {
   const response = await axios.get(API_BASE_URL);
