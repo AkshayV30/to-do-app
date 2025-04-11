@@ -114,9 +114,9 @@ export const deleteTodo = async (req, res) => {
 
     const result = await query(`DELETE FROM todo WHERE todo_id = $1`, [id]);
 
-    const rowCount = isUsingNeon ? result.length : result.rowCount;
+    // const rowCount = isUsingNeon ? result.length : result.rowCount;
 
-    if (rowCount === 0) {
+    if (result.rowCount === 0) {
       return res.status(404).json({ error: "Todo not found" });
     }
 
