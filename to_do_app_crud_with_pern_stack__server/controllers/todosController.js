@@ -18,11 +18,11 @@ const query = async (queryText, values = []) => {
       const result = await sql.query(queryText, values);
       console.log(" Neon SQL result:", result);
 
-      return result.rows;
+      return result;
     } else {
       const result = await db.query(queryText, values);
       console.log(" Local PG result:", result.rows);
-      return result.rows;
+      return result;
     }
   } catch (err) {
     console.error("❌ DB Query Error:", err.message);
