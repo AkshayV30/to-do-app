@@ -62,7 +62,7 @@ export const getTodos = async (req, res) => {
   try {
     // const allTodos = await pool.query("SELECT * FROM todo");
     // res.json(allTodos.rows);
-    const result = await query(`SELECT * FROM todo`);
+    const result = await query(`SELECT * FROM todo`, []);
 
     console.log(" Raw query result:", result);
     // const todos = extractRows(result);
