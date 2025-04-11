@@ -5,23 +5,25 @@ import express from "express";
 // import compression from "compression";
 // import morgan from "morgan";
 
-// const allowedOrigins = [process.env.FRONTEND_URL || "http://localhost:5173"];
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  "http://localhost:5173",
+  "https://akshayv30.github.io/to-do-app/",
+];
 
-// console.log("Allowed Origins:", allowedOrigins);
+console.log("Allowed Origins:", allowedOrigins);
 
 export const configMiddleware = (app) => {
-  // CORS
-  // app.use(
-  //   cors({
-  //     origin: allowedOrigins,
-  //     methods: "GET,POST,PUT,DELETE",
-  //     allowedHeaders: "Content-Type",
-  //   })
-  // );
+  app.use(
+    cors({
+      origin: allowedOrigins,
+      methods: "GET,POST,PUT,DELETE",
+      allowedHeaders: "Content-Type",
+      credentials: true,
+    })
+  );
 
   // app.options("*", cors());
-
-  app.use(cors("*"));
 
   // Parse JSON bodies
   app.use(express.json());

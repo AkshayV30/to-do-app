@@ -5,17 +5,18 @@ console.log(" Using Neon DB:", isUsingNeon);
 const query = async (queryText, values = []) => {
   try {
     if (isUsingNeon) {
-      let textWithValues = queryText;
+      // let textWithValues = queryText;
 
       // Neon doesn't use $1-style placeholders in `.unsafe`, so do direct substitution carefully
-      if (values.length) {
-        // ⚠️ Insecure: Better to use `.sql` instead of `.unsafe` for placeholders
-        values.forEach((val, i) => {
-          const safeVal = typeof val === "string" ? `'${val}'` : val;
-          textWithValues = textWithValues.replace(`$${i + 1}`, safeVal);
-        });
-      }
-      const result = await sql(textWithValues);
+      // if (values.length) {
+      //   // ⚠️ Insecure: Better to use `.sql` instead of `.unsafe` for placeholders
+      //   values.forEach((val, i) => {
+      //     const safeVal = typeof val === "string" ? `'${val}'` : val;
+      //     textWithValues = textWithValues.replace(`$${i + 1}`, safeVal);
+      //   });
+      // }
+      // const result = await sql(textWithValues);
+      const result = sql.unsafe(queryText, values);
       console.log(" Neon SQL result:", result);
 
       return result;
@@ -43,7 +44,7 @@ export const createTodo = async (req, res) => {
     // );
     // res.json(newTodo.rows[0]);
     const result = await query(
-      "INSERT INTO todo (description) VALUES($1) RETURNING *",
+      `INSERT INTO todo (description) VALUES($1) RETURNING *`,
       [description]
     );
 
@@ -59,7 +60,7 @@ export const getTodos = async (req, res) => {
   try {
     // const allTodos = await pool.query("SELECT * FROM todo");
     // res.json(allTodos.rows);
-    const result = await query("SELECT * FROM todo");
+    const result = await query(`SELECT * FROM todo`);
 
     console.log(" Raw query result:", result);
     const todos = extractRows(result);
@@ -79,7 +80,7 @@ export const getTodoById = async (req, res) => {
     // ]);
     // res.json(todo.rows[0]);
 
-    const result = await query("SELECT * FROM todo WHERE todo_id = $1", [id]);
+    const result = await query(`SELECT * FROM todo WHERE todo_id = $1`, [id]);
     const todo = extractOne(result);
 
     if (!todo) {
@@ -113,7 +114,7 @@ export const updateTodo = async (req, res) => {
     // );
 
     const result = await query(
-      "UPDATE todo SET description = $1 WHERE todo_id = $2 RETURNING *",
+      `UPDATE todo SET description = $1 WHERE todo_id = $2 RETURNING *`,
       [description, id]
     );
 
@@ -141,7 +142,7 @@ export const deleteTodo = async (req, res) => {
     const { id } = req.params;
     // await pool.query("DELETE FROM todo WHERE todo_id = $1", [id]);
 
-    const result = await query("DELETE FROM todo WHERE todo_id = $1", [id]);
+    const result = await query(`DELETE FROM todo WHERE todo_id = $1`, [id]);
 
     const rowCount = isUsingNeon ? result.length : result.rowCount;
 
