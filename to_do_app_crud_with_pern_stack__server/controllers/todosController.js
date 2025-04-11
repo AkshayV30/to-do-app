@@ -33,8 +33,8 @@ const query = async (queryText, values = []) => {
 // const extractRows = (result) => (isUsingNeon ? result : result.rows);
 // const extractOne = (result) => (isUsingNeon ? result[0] : result.rows?.[0]);
 
-const extractRows = (result) => result.rows;
-const extractOne = (result) => result.rows?.[0];
+const extractRows = (result) => result;
+const extractOne = (result) => result[0];
 
 // Create a Todo
 export const createTodo = async (req, res) => {
@@ -65,8 +65,9 @@ export const getTodos = async (req, res) => {
     const result = await query(`SELECT * FROM todo`);
 
     console.log(" Raw query result:", result);
-    const todos = extractRows(result);
-    res.json(todos);
+    // const todos = extractRows(result);
+    // res.json(todos);
+    res.json(result);
   } catch (err) {
     console.error("Get Todos Error:", err.message);
     res.status(500).json({ error: "Failed to fetch todos" });
