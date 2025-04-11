@@ -15,7 +15,7 @@ const query = async (queryText, values = []) => {
       // }, []);
 
       // const result = await sql(...taggedQuery);
-      const result = sql.unsafe(queryText, values);
+      const result = await sql.unsafe(queryText, values);
       console.log(" Neon SQL result:", result);
 
       return result;
@@ -30,8 +30,11 @@ const query = async (queryText, values = []) => {
   }
 };
 
-const extractRows = (result) => (isUsingNeon ? result : result.rows);
-const extractOne = (result) => (isUsingNeon ? result[0] : result.rows?.[0]);
+// const extractRows = (result) => (isUsingNeon ? result : result.rows);
+// const extractOne = (result) => (isUsingNeon ? result[0] : result.rows?.[0]);
+
+const extractRows = (result) => result.rows;
+const extractOne = (result) => result.rows?.[0];
 
 // Create a Todo
 export const createTodo = async (req, res) => {
