@@ -6,12 +6,9 @@ import express from "express";
 // import morgan from "morgan";
 
 const allowedOrigins = [
-  "https://akshayv30.github.io/",
   process.env.FRONTEND_URL,
   "http://localhost:5173",
 ].filter(Boolean);
-
-// const allowedOrigins = ["https://akshayv30.github.io"];
 
 console.log("Allowed Origins:", allowedOrigins);
 
