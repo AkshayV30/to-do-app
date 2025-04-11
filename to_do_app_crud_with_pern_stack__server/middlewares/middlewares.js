@@ -5,13 +5,13 @@ import express from "express";
 // import compression from "compression";
 // import morgan from "morgan";
 
-// const allowedOrigins = [
-//   "https://akshayv30.github.io/to-do-app/",
-//   process.env.FRONTEND_URL,
-//   "http://localhost:5173",
-// ];
+const allowedOrigins = [
+  "https://akshayv30.github.io/",
+  process.env.FRONTEND_URL,
+  "http://localhost:5173",
+];
 
-const allowedOrigins = ["https://akshayv30.github.io"];
+// const allowedOrigins = ["https://akshayv30.github.io"];
 
 console.log("Allowed Origins:", allowedOrigins);
 
