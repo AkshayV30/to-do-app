@@ -15,7 +15,7 @@ const query = async (queryText, values = []) => {
       // }, []);
 
       // const result = await sql(...taggedQuery);
-      const result = await sql.unsafe(queryText, values);
+      const result = await sql.query(queryText, values);
       console.log(" Neon SQL result:", result);
 
       return result.rows;
