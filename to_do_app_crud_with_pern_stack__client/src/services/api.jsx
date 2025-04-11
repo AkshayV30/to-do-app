@@ -10,38 +10,97 @@ console.log("API Base URL:", API_BASE_URL);
 
 const api = axios.create({
   baseURL: API_BASE_URL,
+  timeout: 5000,
 });
 
-export const getTodos = async () => {
-  // const response = await axios.get(API_BASE_URL);
-  const response = await api.get("/");
-  const data = response.data;
+// Response interceptor: catch network errors (no response)
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (!error.response) {
+      // Network or server-down error
+      alert(
+        `⚠️ Unable to reach the server.
+         make sure backend server is running or try again later.`
+      );
+    }
+    return Promise.reject(error);
+  }
+);
 
-  if (Array.isArray(data)) {
-    return data;
-  } else if (Array.isArray(data.data)) {
-    return data.data;
-  } else {
-    console.error("Invalid response format:", data);
+export const getTodos = async () => {
+  try {
+    const response = await api.get("/");
+    const data = response.data;
+
+    if (Array.isArray(data)) {
+      return data;
+    } else if (Array.isArray(data.data)) {
+      return data.data;
+    } else {
+      console.error("Invalid response format:", data);
+      return [];
+    }
+  } catch (err) {
+    if (err.response) {
+      alert(
+        `Error ${err.response.status}: ${
+          err.response.data.error || err.response.statusText
+        }`
+      );
+    }
     return [];
   }
 };
 
 export const addTodo = async (description) => {
   // const response = await axios.post(API_BASE_URL, { description });
-
-  const response = await api.post("/", { description });
-  return response.data;
+  try {
+    const response = await api.post("/", { description });
+    return response.data;
+  } catch (err) {
+    if (err.response) {
+      alert(
+        `Error ${err.response.status}: ${
+          err.response.data.error || err.response.statusText
+        }`
+      );
+    }
+    throw err;
+  }
 };
 
 export const updateTodo = async (id, description) => {
   // const response = await axios.put(`${API_BASE_URL}/${id}`, { description });
-  const response = await api.put(`/${id}`, { description });
-  return response.data;
+
+  try {
+    const response = await api.put(`/${id}`, { description });
+    return response.data;
+  } catch (err) {
+    if (err.response) {
+      alert(
+        `Error ${err.response.status}: ${
+          err.response.data.error || err.response.statusText
+        }`
+      );
+    }
+    throw err;
+  }
 };
 
 export const deleteTodo = async (id) => {
-  // return axios.delete(`${API_BASE_URL}/${id}`);
-  const response = await api.delete(`/${id}`);
-  return response.data;
+  try {
+    // return axios.delete(`${API_BASE_URL}/${id}`);
+    const response = await api.delete(`/${id}`);
+    return response.data;
+  } catch (err) {
+    if (err.response) {
+      alert(
+        `Error ${err.response.status}: ${
+          err.response.data.error || err.response.statusText
+        }`
+      );
+    }
+    throw err;
+  }
 };
