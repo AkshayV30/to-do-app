@@ -8,14 +8,14 @@ const query = async (queryText, values = []) => {
       // let textWithValues = queryText;
 
       // Neon doesn't use $1-style placeholders in `.unsafe`, so do direct substitution carefully
-      const parts = queryText.split(/\$\d+/);
-      const taggedQuery = parts.reduce((acc, part, i) => {
-        if (i === 0) return [part];
-        return [...acc, values[i - 1], part];
-      }, []);
+      // const parts = queryText.split(/\$\d+/);
+      // const taggedQuery = parts.reduce((acc, part, i) => {
+      //   if (i === 0) return [part];
+      //   return [...acc, values[i - 1], part];
+      // }, []);
 
-      const result = await sql(...taggedQuery);
-      // const result = sql.unsafe(queryText, values);
+      // const result = await sql(...taggedQuery);
+      const result = sql.unsafe(queryText, values);
       console.log(" Neon SQL result:", result);
 
       return result;
@@ -31,7 +31,7 @@ const query = async (queryText, values = []) => {
 };
 
 const extractRows = (result) => (isUsingNeon ? result : result.rows);
-const extractOne = (result) => (isUsingNeon ? result[0] : result.rows[0]);
+const extractOne = (result) => (isUsingNeon ? result[0] : result.rows?.[0]);
 
 // Create a Todo
 export const createTodo = async (req, res) => {
